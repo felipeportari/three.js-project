@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import ThreeGlobe from 'three-globe';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+import countries from "./src/custom.geo.json";
+
 let renderer, camera, scene, controls, Globe;
 let mouseX = 0, mouseY = 0;
 let windowHalfX = window.innerWidth / 2;
@@ -58,10 +60,9 @@ function init() {
 }
 
 function initGlobe() {
-    Globe = new ThreeGlobe({ waitForGlobeReady: true, animateIn: true })
-    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
+    Globe = new ThreeGlobe({ waitForGlobeReady: true, animateIn: true }).hexPolygonsData(countries.features);
     Globe.rotateY(-Math.PI * (5 / 9));
-    Globe.rotateZ(-Math.PI / 6);
+    Globe.rotateZ(-Math.PI / 6);    
 
     const globeMaterial = Globe.globeMaterial();
     globeMaterial.color = new THREE.Color(0x3a228a);
