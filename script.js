@@ -10,7 +10,7 @@ const scene = new THREE.Scene();
 
 // Carregar textura
 const loader = new THREE.TextureLoader();
-const texture = loader.load('1.webp');
+const texture = loader.load('src/1.webp');
 texture.colorSpace = THREE.SRGBColorSpace;
 
 // Criar esfera e aplicar textura
