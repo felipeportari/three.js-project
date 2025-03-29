@@ -103,7 +103,7 @@ function animate() {
     camera.position.y += (-mouseY - camera.position.y) * 0.05;
     camera.lookAt(scene.position);
 
-    Globe.rotation.y += 0.0008;
+    Globe.rotation.y += 0.008;
 
     controls.update();
     renderer.render(scene, camera);
