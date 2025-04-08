@@ -15,8 +15,8 @@ animate();
 
 function init() {
     // Configuração do Renderizador
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Equilíbrio entre qualidade e desempenho
+    renderer = new THREE.WebGLRenderer({ antialias: false });  // Antialias desativado para melhorar o desempenho
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Ajuste de pixel ratio
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.outputEncoding = THREE.sRGBEncoding;
     document.body.appendChild(renderer.domElement);
@@ -27,15 +27,15 @@ function init() {
     scene.fog = new THREE.Fog(0x535ef3, 400, 2000);
 
     // Configuração da Câmera
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);  // Reduzido o far plane
     camera.position.set(0, 0, 400);
     scene.add(camera);
 
     // Iluminação
-    const ambientLight = new THREE.AmbientLight(0xbbbbbb, 0.4);
+    const ambientLight = new THREE.AmbientLight(0xbbbbbb, 0.2);  // Reduzido a intensidade da luz ambiente
     scene.add(ambientLight);
 
-    const dLight = new THREE.DirectionalLight(0xFFFFFF, 0.6);
+    const dLight = new THREE.DirectionalLight(0xFFFFFF, 0.4);  // Ajustado a intensidade
     dLight.position.set(-800, 2000, 400);
     camera.add(dLight);
 
@@ -59,9 +59,9 @@ function init() {
 function initGlobe() {
     Globe = new ThreeGlobe({ waitForGlobeReady: true, animateIn: true })
         .hexPolygonsData(countries.features)
-        .hexPolygonResolution(3)
-        .hexPolygonMargin(0).hexPolygonColor(() => '#00FFFF');
-
+        .hexPolygonResolution(3)  // Reduzindo a resolução para otimizar o desempenho
+        .hexPolygonMargin(0)
+        .hexPolygonColor(() => '#00FFFF');
 
     Globe.rotateY(-Math.PI * (5 / 9));
     Globe.rotateZ(-Math.PI / 6);
@@ -73,11 +73,9 @@ function initGlobe() {
     globeMaterial.emissiveIntensity = 0.05;
     globeMaterial.shininess = 0.4;
 
-
     // 🔥 Ativar transparência
     globeMaterial.transparent = true;
     globeMaterial.opacity = 0.9; // Ajuste conforme necessário (0.1 = quase invisível, 1 = opaco)
-
 
     scene.add(Globe);
 }
@@ -103,7 +101,7 @@ function animate() {
     camera.position.y += (-mouseY - camera.position.y) * 0.05;
     camera.lookAt(scene.position);
 
-    Globe.rotation.y += 0.0008;
+    Globe.rotation.y += 0.008;
 
     controls.update();
     renderer.render(scene, camera);
